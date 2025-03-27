@@ -24,8 +24,8 @@ export const publicGuard : CanActivateFn = async () => {
   const {data} = await authService().sesion();
 
   console.log(data);
-  if(!data.session){
-    router.navigateByUrl('/content/media')
+  if(data.session){
+    
   }
 
   return !data.session;

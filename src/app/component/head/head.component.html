@@ -5,8 +5,44 @@
       <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Migueplex</span>
   </a>
   <div class="flex md:order-2">
-    <app-perfil></app-perfil>
-    <app-log></app-log>
+    <div class="relative hidden md:block" >
+      <div class="flex flex-col justify-center ">
+          <div class="flex items-center justify-center">
+            <div class=" relative inline-block text-left dropdown">
+              <span class="rounded-md shadow-sm"
+                ><button class="inline-flex justify-center w-full px-4 py-2 text-2xl font-medium leading-5 transition duration-150 ease-in-out text-white"
+                 type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
+                  <span>Perfil</span>
+                  <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                  </button
+              ></span>
+              <div class="hidden dropdown-menu">
+                <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
+                  
+                  <div class="py-1">
+                    <a href="/content/profile" class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" >Cuenta</a>
+                    <a routerLink="/content/licens" class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left" role="menuitem" >Licencia</a></div>
+                  <div class="py-1">
+                    <a type="button" (click)="logOut()" routerLink="/content/media" class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" >Cerrar Sesion</a>
+                </div>
+              </div>
+            </div>
+          </div>              
+        </div>  
+          
+          <style>
+          .dropdown:focus-within .dropdown-menu {
+            /* @apply block; */
+            display:block;
+          }
+          </style>
+      </div>
+  </div>
+    <div >
+    <button type="button" routerLink="/auth/login"
+      class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none bg-gray-900 hover:bg-gray-900 active:bg-gray-900">iniciarSesion</button>
+  
+  </div>
   </div>
     <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 text-2xl">
       <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
