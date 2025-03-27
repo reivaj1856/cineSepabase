@@ -1,0 +1,7 @@
+.imgPersonalizado {
+    background-image: url('/src/assets/img.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  

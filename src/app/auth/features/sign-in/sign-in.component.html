@@ -1,0 +1,56 @@
+<app-head></app-head>
+<div class="flex flex-col items-center justify-center py-25 px-4 bg-cover bg-center bg-[url('assets/img.png')]">
+  <div class="grid md:grid-cols-2 items-center gap-10 max-w-6xl max-md:max-w-md w-full">
+    <div>
+      <h2 class="lg:text-5xl text-3xl font-bold lg:leading-[57px] text-slate-900">
+        Ingreso sin complicaciones para acceso exclusivo
+      </h2>
+      <p class="text-sm mt-6 text-slate-500 leading-relaxed">Sumérgete en un proceso de inicio de sesión sin problemas con nuestro formulario intuitivo. Accede fácilmente a tu cuenta en Migueplex.</p>
+      <p class="text-sm mt-12 text-slate-500">¿No tienes una cuenta? <a routerLink="/auth/register" class="text-blue-600 font-medium hover:underline ml-1">Regístrate aquí</a></p>
+    </div>
+
+    <form class="max-w-md md:ml-auto w-full bg-slate-900 border-b-black bg-opacity-75 p-8 rounded-lg shadow-lg" [formGroup]="form" (ngSubmit)="submit()">
+      <h3 class="text-white lg:text-3xl text-2xl font-bold mb-8">
+        Iniciar sesión
+      </h3>
+      <div class="space-y-6">
+        <div>
+          <label class='text-sm text-white font-medium mb-2 block'>Correo electrónico</label>
+          <input name="email" type="email" required class="bg-slate-100 w-full text-sm text-slate-800 px-4 py-3 rounded-md outline-none border focus:border-blue-600 focus:bg-white" placeholder="Introduce tu correo electrónico" 
+          formControlName = 'email'/>
+          @if(isRequired('email')){
+            <small class="text-blue-400">Este campo es requerido</small>
+          }
+          @if(hasEmailRequired()){
+            <small class="text-blue-400">El correo debe ser valido</small>
+          } 
+        </div>
+        <div>
+          <label class='text-sm text-white font-medium mb-2 block'>Contraseña</label>
+          <input name="password" type="password" required class="bg-slate-100 w-full text-sm text-slate-800 px-4 py-3 rounded-md outline-none border focus:border-blue-600 focus:bg-white" placeholder="Introduce tu contraseña" 
+          formControlName = 'password'/>
+          @if(isRequired('password')){
+            <small class="text-blue-400">Este campo es requerido</small>
+          }
+        </div>
+      </div>
+
+      <div class="!mt-12">
+        <button type="submit" class="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+          Iniciar sesión
+        </button>
+      </div>
+
+      <div class="my-4 flex items-center gap-4">
+        <hr class="w-full border-slate-300" />
+        <p class="text-sm text-white text-center">o</p>
+        <hr class="w-full border-slate-300" />
+      </div>
+
+      <div class="space-x-6 flex submity-center items-center justify-center">
+        <!-- <app-google (onClic)="submitWithGoogle()"></app-google> -->
+      </div>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>
