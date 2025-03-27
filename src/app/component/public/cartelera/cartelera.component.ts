@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cartelera',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './cartelera.component.html',
   styleUrl: './cartelera.component.css'
 })

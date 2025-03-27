@@ -11,7 +11,7 @@ import { GoogleComponent } from '../../google/google.component';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [ReactiveFormsModule,HeadComponent,FooterComponent,GoogleComponent,RouterLink],
+  imports: [ReactiveFormsModule,HeadComponent,FooterComponent,RouterLink],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
