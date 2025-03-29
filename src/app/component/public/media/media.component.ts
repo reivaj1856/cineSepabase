@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { HeadComponent } from '../../head/head.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { CarteleraComponent } from '../cartelera/cartelera.component';
@@ -6,6 +6,7 @@ import { DescuentoComponent } from '../descuento/descuento.component';
 
 import { AuthStateService } from '../../../data-access/auth-state.service';
 import { RouterLink } from '@angular/router';
+import { NotesService } from '../../../data/data-access/data-access.service';
 
 
 @Component({
@@ -15,5 +16,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './media.component.css'
 })
 export class MediaComponent {
-  private _authState = inject(AuthStateService);
+ 
 }

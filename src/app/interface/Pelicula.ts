@@ -3,7 +3,8 @@ export interface Pelicula{
     id: number;
     titulo: string;
     sinopsis: string;
-    url: string;
+    urlTrailer: string;
     duracion: string;
     tipoPublico: string;
+    urlPortada:string;
 }
