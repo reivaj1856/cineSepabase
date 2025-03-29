@@ -53,4 +53,44 @@ interface PeliculaState{
             
         }
     
+        async getPeliculaID(id: string): Promise<Pelicula | null> {
+            try {
+                this._state.update(state => ({
+                    ...state,
+                    loading: true,
+                }));
+        
+                const { data, error } = await this._supabaseClient
+                    .from('PELICULAS')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+        
+                if (error) throw error;
+        
+                if (data) {
+                    this._state.update(state => ({
+                        ...state,
+                        Pelicula: data,
+                    }));
+                    return data;  // ✅ Ahora retorna la película
+                }
+        
+                return null; // ✅ Si no hay datos, retorna null
+            } catch (error) {
+                console.error("Error al obtener película:", error);
+                this._state.update(state => ({
+                    ...state,
+                    error: true,
+                }));
+                return null; // ✅ Retorna null en caso de error
+            } finally {
+                this._state.update(state => ({
+                    ...state,
+                    loading: false,
+                }));
+            }
+        }
+        
+
     }

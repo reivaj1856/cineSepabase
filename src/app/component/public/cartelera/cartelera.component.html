@@ -4,20 +4,45 @@
 
   <!-- Mantén la cuadrícula fuera del bucle -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-    @for (pelicula of _noteService.notes(); track pelicula) {
+    @if(_noteService.loading()){
       <div class="bg-white flex flex-col rounded overflow-hidden shadow-md cursor-pointer hover:scale-[1.01] transition-all">
         <div class="w-full">
-          <img routerLink="/content/detalles" 
-               src={{pelicula.urlPortada}} 
-               alt={{pelicula.titulo}}
-               class="w-full object-cover object-top aspect-[230/307]" />
+         
         </div>
         <div class="p-4 flex-1 flex flex-col">
           <div class="flex-1">
-            <h5 class="text-sm sm:text-base font-semibold text-slate-900 line-clamp-2">{{pelicula.titulo}}</h5>
+            <h5 class="text-sm sm:text-base font-semibold text-slate-900 line-clamp-2">Loading.....</h5>
           </div>
         </div>
       </div>
+    }
+    @if(!_noteService.loading()&& !_noteService.error()){
+      @for (pelicula of _noteService.notes(); track pelicula) {
+        <div class="bg-white flex flex-col rounded overflow-hidden shadow-md cursor-pointer hover:scale-[1.01] transition-all">
+          <div class="w-full">
+            <img [routerLink]="['/content/detalles',pelicula.id]" 
+                 src={{pelicula.urlPortada}} 
+                 alt={{pelicula.titulo}}
+                 class="w-full object-cover object-top aspect-[230/307]" />
+          </div>
+          <div class="p-4 flex-1 flex flex-col">
+            <div class="flex-1">
+              <h5 class="text-sm sm:text-base font-semibold text-slate-900 line-clamp-2">{{pelicula.titulo}}</h5>
+            </div>
+          </div>
+        </div>
+      }@empty {
+        <div class="bg-white flex flex-col rounded overflow-hidden shadow-md cursor-pointer hover:scale-[1.01] transition-all">
+          <div class="w-full">
+           
+          </div>
+          <div class="p-4 flex-1 flex flex-col">
+            <div class="flex-1">
+              <h5 class="text-sm sm:text-base font-semibold text-slate-900 line-clamp-2">no hay existencia de peliculas</h5>
+            </div>
+          </div>
+        </div>
+      }
     }
   </div>
 
