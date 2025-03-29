@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthStateService } from '../../data-access/auth-state.service';
+import { AuthService } from '../../auth/data-access/auth.service';
+
 
 
 @Component({
@@ -10,15 +11,18 @@ import { AuthStateService } from '../../data-access/auth-state.service';
   styleUrl: './head.component.css'
 })
 export class HeadComponent {
-   
-  private _authState = inject(AuthStateService);
+
+  private _authState = inject(AuthService);
   private _router = inject(Router);
 
   async logOut(){
-    // await this._authState.logOut();
+    await this._authState.signOut();
+    this._router.navigateByUrl('/content/media');
   }
- 
-  getLogin(){
-    // return this._authState.getLogin();
+
+
+  async getLogin(){
+    const {data} = await this._authState.sesion();
+  return !!data.session;
   }
 }

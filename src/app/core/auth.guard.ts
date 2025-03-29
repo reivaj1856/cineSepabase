@@ -1,42 +1,33 @@
 
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { map } from 'rxjs';
-/* 
-export const privateGuard = (): CanActivateFn => {
-  return () => {
-    const router = inject(Router);
-    const authState = inject(AuthStateService);
+import { AuthService } from '../auth/data-access/auth.service';
 
-    return authState.authState$.pipe(
-      map((state) => {
-        console.log(state);
-        if (!state) {
-          router.navigateByUrl('/auth');
-          return false;
-        }
+const routerInjection = () => inject(Router);
 
-        return true;
-      })
-    );
-  };
+const authService = () => inject(AuthService);
+
+export const privateGuard : CanActivateFn = async () => {
+  const router = routerInjection();
+  const {data} = await authService().sesion();
+
+  console.log(data);
+  if(!data.session){
+    router.navigateByUrl('/auth/login')
+  }
+
+  return !!data.session;
 };
 
-export const publicGuard = (): CanActivateFn => {
-  return () => {
-    const router = inject(Router);
-    const authState = inject(AuthStateService);
+export const publicGuard : CanActivateFn = async () => {
+  const router = routerInjection();
+  const {data} = await authService().sesion();
 
-    return authState.authState$.pipe(
-      map((state) => {
-        if (state) {
-          router.navigateByUrl('/content');
-          return false;
-        }
+  console.log(data);
+  if(data.session){
+    
+  }
 
-        return true;
-      })
-    );
-  };
+  return !data.session;
 };
- */
+ 

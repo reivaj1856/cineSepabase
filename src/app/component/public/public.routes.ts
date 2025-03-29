@@ -7,10 +7,10 @@ export default [
     },
     {
         path: 'media',
-        loadComponent: () => import('./media/media.component').then(m => m.MediaComponent),
+        loadComponent: () => import('./media/media.component').then(m => m.MediaComponent  ),
     },
     {
-        path: 'detalles',
+        path: 'detalles/:id',
         loadComponent: () => import('./detalles/detalles.component').then(m => m.DetallesComponent),
     },
     {

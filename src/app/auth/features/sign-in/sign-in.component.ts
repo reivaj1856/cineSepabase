@@ -7,11 +7,11 @@ import { Router, RouterLink } from '@angular/router';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { hasEmailError, isRequired } from '../utils/validators';
 import { FormSignIn } from '../../../interface/FormSignIn';
-import { GoogleComponent } from '../../google/google.component';
+import { GoogleComponent } from '../google/google.component';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [ReactiveFormsModule,HeadComponent,FooterComponent,GoogleComponent,RouterLink],
+  imports: [ReactiveFormsModule,HeadComponent,FooterComponent,RouterLink],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
