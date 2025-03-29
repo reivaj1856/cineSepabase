@@ -7,7 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { hasEmailError, isRequired } from '../utils/validators';
 import { FormSignIn } from '../../../interface/FormSignIn';
-import { GoogleComponent } from '../../google/google.component';
+import { GoogleComponent } from '../google/google.component';
 
 @Component({
   selector: 'app-sign-in',
