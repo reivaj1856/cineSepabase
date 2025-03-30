@@ -20,7 +20,7 @@ interface PeliculaState{
             error: false,
         });
 
-
+    peli!:Pelicula;
     notes = computed(() => this._state().notes);
     loading = computed(() => this._state().loading);
     error = computed(() => this._state().error);
@@ -52,45 +52,22 @@ interface PeliculaState{
         }
             
         }
-    
-        async getPeliculaID(id: string): Promise<Pelicula | null> {
-            try {
-                this._state.update(state => ({
-                    ...state,
-                    loading: true,
-                }));
         
+        async getPeliculaById(id: string): Promise<Pelicula | null> {
+            try {
+                // Consultamos la película con el ID específico
                 const { data, error } = await this._supabaseClient
                     .from('PELICULAS')
                     .select('*')
                     .eq('id', id)
-                    .single();
+                    .single(); // 👈 Garantiza que solo devuelva un objeto y no un array
         
-                if (error) throw error;
+                if (error) throw error; // Si hay error, lanzamos una excepción
         
-                if (data) {
-                    this._state.update(state => ({
-                        ...state,
-                        Pelicula: data,
-                    }));
-                    return data;  // ✅ Ahora retorna la película
-                }
-        
-                return null; // ✅ Si no hay datos, retorna null
+                return data; // Retornamos la película encontrada
             } catch (error) {
-                console.error("Error al obtener película:", error);
-                this._state.update(state => ({
-                    ...state,
-                    error: true,
-                }));
-                return null; // ✅ Retorna null en caso de error
-            } finally {
-                this._state.update(state => ({
-                    ...state,
-                    loading: false,
-                }));
+                console.error("Error al obtener la película:", error);
+                return null; // Si hay un error, devolvemos `null`
             }
         }
-        
-
     }

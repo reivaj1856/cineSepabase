@@ -25,12 +25,12 @@ selectPelicula!: Pelicula|null; // Asegúrate de inicializar correctamente
   ngOnInit() {
 this.route.params.subscribe(params => {
       this.peliculaId = params['id']; // Obtén el ID desde los parámetros de la ruta
-    this.cargarPelicula();
+    this.cargarPelicula(this.peliculaId);
 });
   }
   
-  async cargarPelicula() {
-    this.selectPelicula = await this._noteService.getPeliculaID(this.peliculaId);
+  async cargarPelicula(id:string) {
+    this.selectPelicula = await this._noteService.getPeliculaById(id); // Reemplaza '123' con el ID real
 }
 
 }
