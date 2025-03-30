@@ -6,6 +6,7 @@ import { AuthStateService } from '../../../data-access/auth-state.service';
 import { NotesService } from '../../../data/data-access/data-access.service';
 import { Pelicula } from '../../../interface/Pelicula';
 import { HorariosComponent } from '../horarios/horarios.component';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detalles',
@@ -14,12 +15,12 @@ import { HorariosComponent } from '../horarios/horarios.component';
   styleUrls: ['./detalles.component.css'] // Corregido de styleUrl a styleUrls
 })
 export class DetallesComponent implements OnInit {
-  private _authState = inject(AuthStateService);
+
 private _noteService = inject(NotesService);
-  
+
 selectPelicula!: Pelicula|null; // Asegúrate de inicializar correctamente
   peliculaId!: string;
-
+  
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {

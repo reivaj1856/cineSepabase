@@ -32,7 +32,7 @@ interface PeliculaState{
                 ...state,
                 loading: true,
             })));
-            const {data} = await this._supabaseClient.from('PELICULAS').select().returns<Pelicula[]>();
+            const {data} = await this._supabaseClient.from('Pelicula').select().returns<Pelicula[]>();
             if(data){
                 this._state.update((state) =>({
                     ...state,
@@ -57,7 +57,7 @@ interface PeliculaState{
             try {
                 // Consultamos la película con el ID específico
                 const { data, error } = await this._supabaseClient
-                    .from('PELICULAS')
+                    .from('Pelicula')
                     .select('*')
                     .eq('id', id)
                     .single(); // 👈 Garantiza que solo devuelva un objeto y no un array
@@ -70,4 +70,18 @@ interface PeliculaState{
                 return null; // Si hay un error, devolvemos `null`
             }
         }
+        async obtenerSalasYHorarios(idProyeccion: number) {
+            try {
+              const { data, error } = await this._supabaseClient
+                .from('SALAS_has_horario')
+                .select('*')
+                .eq('SALAS_idSALAS', idProyeccion);
+        
+              if (error) throw error;
+              return data;
+            } catch (error) {
+              console.error('Error al obtener horarios:', error);
+              return [];
+            }
+          }
     }
