@@ -20,6 +20,7 @@ export class HorariosComponent {
   route = inject(ActivatedRoute);
   peliculaId!: number;
   salas: Sala [] | null=[];
+  id: string = '';
 
   constructor(private supabaseService: NotesService) {}
 
@@ -39,4 +40,28 @@ export class HorariosComponent {
     this.salas = await this.supabaseService.obtenerSala();
     console.log(this.salas); // Espera el resultado de la promesa
   }
+
+  obtenerRadioSeleccionado() {
+    // Obtiene todos los radios con el nombre "pelicula"
+    const radios = document.querySelectorAll('input[name="horaSeleccionada"]');
+    
+    // Busca cuál está seleccionado
+    let idSeleccionado = null;
+    radios.forEach(radio => {
+        if (radio.ariaChecked) {
+            idSeleccionado = radio.id; // Obtiene el ID del radio seleccionado
+        }
+    });
+
+    if (idSeleccionado) {
+        console.log("ID del radio seleccionado:", idSeleccionado);
+        alert(`Seleccionado: ${idSeleccionado}`);
+    } else {
+        console.log("Ningún radio seleccionado");
+        alert("¡No has seleccionado ninguna opción!");
+    }
+
+    this.id = ""+ idSeleccionado; // Devuelve el ID (o null si no hay selección)
+}
+   
 }

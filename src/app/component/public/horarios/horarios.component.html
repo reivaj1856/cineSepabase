@@ -12,7 +12,7 @@
                     <h4 class="text-[15px] font-medium text-state">{{sala.nombre}}</h4>
                     <p class="text-[13px] mt-1.5 text-slate-700">{{proyeccion.Horario}}</p>
                     <div class="flex items-center justify-center py-1">
-                      <input id={{proyeccion.id}} type="radio" name="value1" class="w-5 h-5 hidden peer" />
+                      <input id={{proyeccion.id}} type="radio" name="horaSeleccionada" class="w-5 h-5 hidden peer" />
                       <label for={{proyeccion.id}}
                         class="relative flex items-center justify-center peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-6 h-6 cursor-pointer border-2 border-slate-700 rounded overflow-hidden">
                         <span class="bg-slate-700 w-2.5 h-2.5"></span>
@@ -24,14 +24,13 @@
             }
           }     
        }
-       
     </div>
   </div>
 
     <!-- <p>{{mostrarSeleccion(25)}}</p> -->
 
 <div class="relative group w-full mt-12">
-  <button type="button" routerLink="/private/venta"
+  <button type="button" [routerLink]="['/content/detalles',id]" 
   class=" py-2.5 rounded-lg w-full text-white text-sm tracking-wider font-medium border border-current outline-none bg-gradient-to-r from-state-500 to-state-900 p-8">Comprar Tiket</button>
 </div>
 
