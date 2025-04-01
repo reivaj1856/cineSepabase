@@ -7,7 +7,7 @@
     /* Alinear texto a la izquierda */
     color: white;
     /* Color del texto */
-    
+
     padding: 15px;
     border-radius: 8px;
     /* Bordes redondeados */
@@ -48,4 +48,29 @@
 .status-table tr:hover {
     background-color: rgba(255, 255, 255, 0.2);
     /* Efecto hover */
+}
+
+.asientos {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.asientos div {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-align: center;
+    color: black;
+}
+
+.asientos div.selected {
+    background-color: #4caf50;
+    /* Color de fondo para silla seleccionada */
+    color: white;
+    /* Color del texto para silla seleccionada */
+}
+
+.btn-confirm{
+    color: black;
 }

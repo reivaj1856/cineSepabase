@@ -340,13 +340,15 @@
       </a>
     </div>
 
-
-
     <div class="py-6">
-      <a type="button"
-        class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none dark:bg-gray-900 hover:bg-[#222] active:bg-[#333]"
-        (click)="confirmSelection()">
-        Enviar
+      <a type="button" (click)="confirmSelection()" routerLink="/private/venta"
+        class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none dark:bg-gray-900 hover:bg-[#222] active:bg-[#333]">
+        Seleccionar Asiento
+      </a>
+      &nbsp;
+      <a type="button" [routerLink]="hasSelectedSeats() ? '/private/detalles' : null" (click)="handlePayment()" [state]="{ sillas: getSelectedSeats() }"
+        class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none dark:bg-gray-900 hover:bg-[#222] active:bg-[#333]">
+        Pagar Boleto
       </a>
     </div>
 
@@ -411,7 +413,7 @@
             </tr>
           </tbody>
         </table>
-    
+
         <table class="status-table">
           <thead>
             <tr>
@@ -474,12 +476,9 @@
       </div>
     </div>
 
-    <div class="py-5">
-      <a type="button" routerLink="/private/detalles"
-        class="px-5 py-2.5 rounded-lg text-white text-sm tracking-wider font-medium border border-current outline-none dark:bg-gray-900 hover:bg-[#222] active:bg-[#333]">Siguiente</a>
-    </div>
-  </div>
 
+
+  </div>
 
   <app-footer></app-footer>
 </body>
