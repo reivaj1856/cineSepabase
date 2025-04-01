@@ -1,7 +1,6 @@
 
-export interface Horarios {
+export interface Horario {
     id : number;
     horaInicio : string;
-    estado: boolean;
  }
  

@@ -10,7 +10,7 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detalles',
-  imports: [FooterComponent, HeadComponent, RouterLink,HorariosComponent],
+  imports: [FooterComponent, HeadComponent,HorariosComponent],
   templateUrl: './detalles.component.html',
   styleUrls: ['./detalles.component.css'] // Corregido de styleUrl a styleUrls
 })

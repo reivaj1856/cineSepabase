@@ -1,7 +1,10 @@
 
 export interface Proyeccion {
    id : number;
-   fecha: string;
+   Horario: string;
    idPelicula: number;
+   Dia: string;
+   idSala: number;
+   Butacas: boolean[];
    
 }

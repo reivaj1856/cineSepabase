@@ -11,7 +11,6 @@ import { Pelicula } from '../../../interface/Pelicula';
   styleUrl: './cartelera.component.css'
 })
 export class CarteleraComponent implements AfterViewInit {
-  private _authState = inject(AuthStateService);
 
   _noteService= inject(NotesService);
 

@@ -3,11 +3,20 @@ import { AuthService } from "../../auth/data-access/auth.service";
 import { AuthStateService } from "../../data-access/auth-state.service";
 import { Proyeccion } from "../../interface/Proyeccion";
 import { Pelicula } from "../../interface/Pelicula";
+import { Horario } from "../../interface/horarios";
+import { Dia } from "../../interface/Dia";
+import { Sala } from "../../interface/Sala";
 
 interface PeliculaState{
     notes: Pelicula[];
     loading: boolean;
     error: boolean;
+}
+
+interface HorarioState {
+  note: Horario | null;
+  loading: boolean;
+  error: boolean;
 }
 
 @Injectable({ providedIn: 'root'})
@@ -26,7 +35,6 @@ interface PeliculaState{
     error = computed(() => this._state().error);
         
     async getAllNotes(){
-
         try {
             this._state.update((state => ({
                 ...state,
@@ -70,18 +78,35 @@ interface PeliculaState{
                 return null; // Si hay un error, devolvemos `null`
             }
         }
-        async obtenerSalasYHorarios(idProyeccion: number) {
-            try {
-              const { data, error } = await this._supabaseClient
-                .from('SALAS_has_horario')
-                .select('*')
-                .eq('SALAS_idSALAS', idProyeccion);
-        
-              if (error) throw error;
-              return data;
-            } catch (error) {
-              console.error('Error al obtener horarios:', error);
-              return [];
+
+        async obtenerProyecciones(idPelicula:number) {
+            const { data, error } = await this._supabaseClient
+              .from('Proyeccion')
+              .select('id, Horario ,idPelicula, Dia, idSala, Butacas')
+              .eq('idPelicula', idPelicula);
+            
+            if (error) {
+              console.error("Error al obtener las proyecciones:", error);
+              return null;
+            } else {
+              return data;  // Devuelve las proyecciones encontradas
             }
           }
-    }
+
+          async obtenerSala(){
+
+            const { data, error } = await this._supabaseClient
+              .from('Sala')
+              .select('*').returns<Sala[]>()
+              // Esta función hace que Supabase devuelva solo un objeto en lugar de un array
+          
+            if (error) {
+              console.error("Error al obtener el sala:", error);
+              return null;
+            }
+          
+            return data;  // Devuelve un objeto Horario o null si no se encuentra
+          }       
+        }
+      
+
