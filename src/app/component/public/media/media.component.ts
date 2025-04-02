@@ -11,7 +11,7 @@ import { NotesService } from '../../../data/data-access/data-access.service';
 
 @Component({
   selector: 'app-media',
-  imports: [HeadComponent,FooterComponent,CarteleraComponent,DescuentoComponent,RouterLink],
+  imports: [HeadComponent,FooterComponent,CarteleraComponent,DescuentoComponent],
   templateUrl: './media.component.html',
   styleUrl: './media.component.css'
 })

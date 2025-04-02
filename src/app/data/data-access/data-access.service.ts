@@ -3,11 +3,20 @@ import { AuthService } from "../../auth/data-access/auth.service";
 import { AuthStateService } from "../../data-access/auth-state.service";
 import { Proyeccion } from "../../interface/Proyeccion";
 import { Pelicula } from "../../interface/Pelicula";
+import { Horario } from "../../interface/horarios";
+import { Dia } from "../../interface/Dia";
+import { Sala } from "../../interface/Sala";
 
 interface PeliculaState{
     notes: Pelicula[];
     loading: boolean;
     error: boolean;
+}
+
+interface HorarioState {
+  note: Horario | null;
+  loading: boolean;
+  error: boolean;
 }
 
 @Injectable({ providedIn: 'root'})
@@ -20,19 +29,18 @@ interface PeliculaState{
             error: false,
         });
 
-
+    peli!:Pelicula;
     notes = computed(() => this._state().notes);
     loading = computed(() => this._state().loading);
     error = computed(() => this._state().error);
         
     async getAllNotes(){
-
         try {
             this._state.update((state => ({
                 ...state,
                 loading: true,
             })));
-            const {data} = await this._supabaseClient.from('PELICULAS').select().returns<Pelicula[]>();
+            const {data} = await this._supabaseClient.from('Pelicula').select().returns<Pelicula[]>();
             if(data){
                 this._state.update((state) =>({
                     ...state,
@@ -52,45 +60,53 @@ interface PeliculaState{
         }
             
         }
-    
-        async getPeliculaID(id: string): Promise<Pelicula | null> {
-            try {
-                this._state.update(state => ({
-                    ...state,
-                    loading: true,
-                }));
         
+        async getPeliculaById(id: string): Promise<Pelicula | null> {
+            try {
+                // Consultamos la película con el ID específico
                 const { data, error } = await this._supabaseClient
-                    .from('PELICULAS')
+                    .from('Pelicula')
                     .select('*')
                     .eq('id', id)
-                    .single();
+                    .single(); // 👈 Garantiza que solo devuelva un objeto y no un array
         
-                if (error) throw error;
+                if (error) throw error; // Si hay error, lanzamos una excepción
         
-                if (data) {
-                    this._state.update(state => ({
-                        ...state,
-                        Pelicula: data,
-                    }));
-                    return data;  // ✅ Ahora retorna la película
-                }
-        
-                return null; // ✅ Si no hay datos, retorna null
+                return data; // Retornamos la película encontrada
             } catch (error) {
-                console.error("Error al obtener película:", error);
-                this._state.update(state => ({
-                    ...state,
-                    error: true,
-                }));
-                return null; // ✅ Retorna null en caso de error
-            } finally {
-                this._state.update(state => ({
-                    ...state,
-                    loading: false,
-                }));
+                console.error("Error al obtener la película:", error);
+                return null; // Si hay un error, devolvemos `null`
             }
         }
-        
 
-    }
+        async obtenerProyecciones(idPelicula:number) {
+            const { data, error } = await this._supabaseClient
+              .from('Proyeccion')
+              .select('id, Horario ,idPelicula, Dia, idSala, Butacas')
+              .eq('idPelicula', idPelicula);
+            
+            if (error) {
+              console.error("Error al obtener las proyecciones:", error);
+              return null;
+            } else {
+              return data;  // Devuelve las proyecciones encontradas
+            }
+          }
+
+          async obtenerSala(){
+
+            const { data, error } = await this._supabaseClient
+              .from('Sala')
+              .select('*').returns<Sala[]>()
+              // Esta función hace que Supabase devuelva solo un objeto en lugar de un array
+          
+            if (error) {
+              console.error("Error al obtener el sala:", error);
+              return null;
+            }
+          
+            return data;  // Devuelve un objeto Horario o null si no se encuentra
+          }       
+        }
+      
+

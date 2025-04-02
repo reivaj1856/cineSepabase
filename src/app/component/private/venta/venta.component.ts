@@ -3,6 +3,7 @@ import { HeadComponent } from '../../head/head.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { RouterLink } from '@angular/router';
 
+
 @Component({
   selector: 'app-venta',
   imports: [HeadComponent, FooterComponent, RouterLink],
@@ -10,8 +11,8 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./venta.component.css']
 })
 export class VentaComponent {
-  isClicked = new Array(24).fill(false); // Asumiendo 20 asientos
-  isConfirmed = new Array(24).fill(false); // Asumiendo 20 asientos
+  isClicked = new Array(24).fill(false); // Asumiendo 24 asientos
+  isConfirmed = new Array(24).fill(false); // Asumiendo 24 asientos
 
   toggleColor(index: number) {
     if (!this.isConfirmed[index]) {
@@ -28,16 +29,19 @@ export class VentaComponent {
     }
   }
 
-  // Método para obtener el estado de los asientos en un string
-  getAvailableSeatsStatus(): string {
-    let status = '';
-    for (let i = 0; i < this.isConfirmed.length; i++) {
-      if (!this.isConfirmed[i]) {
-        status += `Silla ${i + 1} está disponible.\n`;
-      } else {
-        status += `Silla ${i + 1} no está disponible.\n`;
-      }
+  // Método para obtener las sillas seleccionadas
+  getSelectedSeats(): string[] {
+    return this.isConfirmed.map((confirmed, index) => confirmed ? `S - ${index + 1} ------------------------ 30bs` : null).filter(Boolean) as string[];
+  }
+
+  // Método para verificar si hay sillas seleccionadas
+  hasSelectedSeats(): boolean {
+    return this.getSelectedSeats().length > 0;
+  }
+
+  handlePayment() {
+    if (!this.hasSelectedSeats()) {
+      alert('¡Por favor, selecciona al menos un asiento antes de continuar!');
     }
-    return status;
   }
 }

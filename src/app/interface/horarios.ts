@@ -1,9 +1,6 @@
 
-export interface Horarios {
+export interface Horario {
     id : number;
-    idDia : number;
     horaInicio : string;
-    horaFin : string;
-    idButacas: number;
  }
  
