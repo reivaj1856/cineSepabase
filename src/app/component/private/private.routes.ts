@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 
 export default [
     {
-        path: 'venta',
+        path: 'venta/:id',
         loadComponent: () => import('./venta/venta.component').then(m => m.VentaComponent),
     },
     {

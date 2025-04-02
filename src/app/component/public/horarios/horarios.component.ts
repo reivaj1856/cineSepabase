@@ -4,9 +4,11 @@ import { NotesService } from '../../../data/data-access/data-access.service';
 import { Horario } from '../../../interface/horarios';
 import { SALAS_has_horario } from '../../../interface/SALAS_has_horario';
 import { Proyeccion } from '../../../interface/Proyeccion';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Dia } from '../../../interface/Dia';
 import { Sala } from '../../../interface/Sala';
+import { NgxSonnerToaster, toast } from 'ngx-sonner';
+
 
 @Component({
   selector: 'app-horarios',
@@ -15,7 +17,7 @@ import { Sala } from '../../../interface/Sala';
   styleUrl: './horarios.component.css'
 })
 export class HorariosComponent {
-
+  router = inject(Router);
   proyecciones: Proyeccion[] |null =[];
   route = inject(ActivatedRoute);
   peliculaId!: number;
@@ -41,27 +43,25 @@ export class HorariosComponent {
     console.log(this.salas); // Espera el resultado de la promesa
   }
 
-  obtenerRadioSeleccionado() {
-    // Obtiene todos los radios con el nombre "pelicula"
-    const radios = document.querySelectorAll('input[name="horaSeleccionada"]');
-    
-    // Busca cuál está seleccionado
-    let idSeleccionado = null;
-    radios.forEach(radio => {
-        if (radio.ariaChecked) {
-            idSeleccionado = radio.id; // Obtiene el ID del radio seleccionado
-        }
-    });
+  obtenerRadioSeleccionado = function() {
+      var seleccionado = document.querySelector('input[name="horaSeleccionada"]:checked');
 
-    if (idSeleccionado) {
-        console.log("ID del radio seleccionado:", idSeleccionado);
-        alert(`Seleccionado: ${idSeleccionado}`);
-    } else {
-        console.log("Ningún radio seleccionado");
-        alert("¡No has seleccionado ninguna opción!");
+      if (seleccionado) {
+          var idSeleccionado = <string>seleccionado.id;
+          console.log("ID del radio seleccionado:", idSeleccionado);
+
+          return idSeleccionado;
+      } else {
+          console.log("Ningún radio seleccionado");
+          toast.success('Por favor seleccione un horario');
+          return null;
+      }
+  };
+  darseleccionado(){
+    this.id =""+this.obtenerRadioSeleccionado();
+    if(!!!this.id){  
+      this.router.navigateByUrl("/private/venta/{{this.id}}")
     }
+  }
 
-    this.id = ""+ idSeleccionado; // Devuelve el ID (o null si no hay selección)
-}
-   
 }
