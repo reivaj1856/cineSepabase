@@ -4,6 +4,7 @@ import { HeadComponent } from '../../head/head.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
+import { toast } from 'ngx-sonner';
 
 // 1. Define la interfaz aquí, antes de la clase
 interface PaymentState {
@@ -44,6 +45,7 @@ export class MetodoPagoComponent {
     return this.ticketDetails.sillasSeleccionadas.length * 30;
   }
   generarFactura(nombreTitular: string, numeroTarjeta: string, fechaExpiracion: string, cvv: string) {
+    toast.info('Pago exitoso');
     const total = this.calcularTotal();
     const factura = `
       <h1 style="text-align: center; font-size: 24px; font-weight: bold;">FACTURA DE COMPRA</h1>
@@ -60,7 +62,8 @@ export class MetodoPagoComponent {
       <h2 style="font-size: 20px; font-weight: bold;">Total a Pagar: $${total.toFixed(2)}</h2>
       <p style="text-align: center;">¡Gracias por su compra!</p>
       <button onclick="window.print();" style="display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">Imprimir</button>
-    `;
+    `
+    ;
   
     const nuevaVentana = window.open('', '_blank', 'width=600,height=400');
     if (nuevaVentana) {

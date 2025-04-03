@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HeadComponent } from '../../head/head.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { NotesService } from '../../../data/data-access/data-access.service';
 
 
 @Component({
@@ -11,17 +12,26 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   styleUrls: ['./venta.component.css']
 })
 export class VentaComponent implements OnInit{
-  isClicked = new Array(24).fill(false); // Asumiendo 20 asientos
-  isConfirmed = new Array(24).fill(false); // Asumiendo 20 asientos
+  isConfirmed : boolean[] =[false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false];
+  isClicked = [false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false];
   
   proyeccionId!: string;
   
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,private notes :NotesService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
     this.proyeccionId = params['id']; // Obtén el ID desde los parámetros de la ruta
-});
+    this.notes.obtenerEstadoAsientos(this.proyeccionId).then((estado) => {
+      this.isConfirmed = estado;
+      });
+    
+  });
+    
   }
   toggleColor(index: number) {
     if (!this.isConfirmed[index]) {
@@ -40,7 +50,7 @@ export class VentaComponent implements OnInit{
 
   // Método para obtener las sillas seleccionadas
   getSelectedSeats(): string[] {
-    return this.isConfirmed.map((confirmed, index) => confirmed ? `S - ${index + 1} ------------------------ 30bs` : null).filter(Boolean) as string[];
+    return this.isClicked.map((confirmed, index) => confirmed ? `S - ${index + 1} ------------------------ 30bs` : null).filter(Boolean) as string[];
   }
 
   // Método para verificar si hay sillas seleccionadas

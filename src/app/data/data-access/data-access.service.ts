@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from "@angular/core";
+    import { computed, inject, Injectable, signal } from "@angular/core";
 import { AuthService } from "../../auth/data-access/auth.service";
 import { AuthStateService } from "../../data-access/auth-state.service";
 import { Proyeccion } from "../../interface/Proyeccion";
@@ -106,7 +106,24 @@ interface HorarioState {
             }
           
             return data;  // Devuelve un objeto Horario o null si no se encuentra
-          }       
+          }  
+          
+          async obtenerEstadoAsientos(idProyeccion: string): Promise<boolean[]> {
+            const { data, error } = await this._supabaseClient
+                .from('Proyeccion')
+                .select('Butacas')
+                .eq('id', idProyeccion)
+                .single(); // .single() porque esperamos solo un resultado
+        
+            if (error) {
+                console.error('Error al obtener los datos:', error);
+                return [true, true, true, true, true, true, true, true,
+                    true, true, true, true, true, true, true, true,
+                    true, true, true, true, true, true, true, true];
+            }
+        
+            return data?.Butacas || null;
+        }
         }
       
 
