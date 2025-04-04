@@ -8,10 +8,11 @@ import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { hasEmailError, isRequired } from '../utils/validators';
 import { FormSignIn } from '../../../interface/FormSignIn';
 import { GoogleComponent } from '../google/google.component';
+import { AuthStateService } from '../../../data-access/auth-state.service';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [ReactiveFormsModule,HeadComponent,FooterComponent,RouterLink],
+  imports: [ReactiveFormsModule,HeadComponent,FooterComponent,RouterLink,GoogleComponent],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
@@ -19,6 +20,7 @@ export default class SignInComponent {
   private _formBuilder = inject(FormBuilder);
     private _authService = inject(AuthService);
     private _router = inject(Router);
+    private _supabaseClient = inject(AuthStateService);
   
     hasEmailRequired() {
       return hasEmailError(this.form);
@@ -47,13 +49,25 @@ export default class SignInComponent {
         throw authResponse.error;
         
       }else{
-        toast.success('Bienvenido a Migueplex');
+        toast.success('Bienvenido a JyT Films');
         this._router.navigateByUrl('/content/media');
       }
       } catch (error) {
         console.error(error);
       }
-
     }
+    
+    async submitWithGoogle() {
+      const { data, error } = await this._supabaseClient.supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      })
+    }
+    
 }
 

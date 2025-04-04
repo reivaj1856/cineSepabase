@@ -33,4 +33,21 @@ export class AuthService {
     return this._supabaseClient.auth.signOut();
   }
 
+  async getLogin(): Promise<boolean>{
+    const { data, error } = await this._supabaseClient.auth.getSession();
+  
+    if (error) {
+      console.log('Hubo un error al obtener la sesión:', error.message);
+      return false;
+    }
+  
+    if (data?.session) {
+      console.log('Usuario está logueado.');
+      return true;
+    } else {
+      console.log('Usuario no está logueado.');
+      return false;
+    }
+  
+  }
 }

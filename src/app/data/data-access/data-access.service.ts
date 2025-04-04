@@ -124,6 +124,21 @@ interface HorarioState {
         
             return data?.Butacas || null;
         }
+        async setButacas(butacas: boolean[],id:string){
+           
+            const { data, error } = await this._supabaseClient
+            .from('Proyeccion')
+            .update({Butacas: butacas})
+            .eq('id', id); // Aquí asegúrate de filtrar correctamente por el identificador
+
+            if (error) {
+                console.log(butacas);
+                console.log(id);
+                console.error('Error actualizando butacas:', error);
+            } else {
+                console.log('Butacas actualizadas:', data);
+            }
+        }
         }
       
 

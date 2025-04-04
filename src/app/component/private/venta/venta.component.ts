@@ -3,7 +3,7 @@ import { HeadComponent } from '../../head/head.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NotesService } from '../../../data/data-access/data-access.service';
-
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-venta',
@@ -53,6 +53,14 @@ export class VentaComponent implements OnInit{
     return this.isClicked.map((confirmed, index) => confirmed ? `S - ${index + 1} ------------------------ 30bs` : null).filter(Boolean) as string[];
   }
 
+  getConfirmed(): boolean[] {
+    return this.isConfirmed;
+  }
+
+  getID(){
+    return this.proyeccionId;
+  }
+
   // Método para verificar si hay sillas seleccionadas
   hasSelectedSeats(): boolean {
     return this.getSelectedSeats().length > 0;
@@ -60,7 +68,10 @@ export class VentaComponent implements OnInit{
 
   handlePayment() {
     if (!this.hasSelectedSeats()) {
-      alert('¡Por favor, selecciona al menos un asiento antes de continuar!');
+      toast.info('Por favor selecciona un asiento');
+    }else{
+      this.confirmSelection();
+      console.log(this.getConfirmed());
     }
   }
 }

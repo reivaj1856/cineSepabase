@@ -1,14 +1,20 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HeadComponent } from '../../head/head.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
 import { toast } from 'ngx-sonner';
+import { NotesService } from '../../../data/data-access/data-access.service';
+import { AuthClient } from '@supabase/supabase-js';
+import { AuthService } from '../../../auth/data-access/auth.service';
+import { AuthStateService } from '../../../data-access/auth-state.service';
 
 // 1. Define la interfaz aquí, antes de la clase
 interface PaymentState {
   sillas: string[]; // Esta propiedad será un array de strings
+  confirmados: boolean[];
+  id: string;
 }
 
 @Component({
@@ -18,33 +24,47 @@ interface PaymentState {
   styleUrls: ['./metodo-pago.component.css'] // Asegúrate de que esto sea 'styleUrls'
 })
 export class MetodoPagoComponent {
+  _supabaseClient = inject(AuthStateService);
   // Propiedades para almacenar datos del formulario
   nombreTitular: string = '';
   numeroTarjeta: string = '';
   fechaExpiracion: string = '';
   cvv: string = '';
-
+  listaSillas :boolean[]=[];
+  proyeccionID : string="";
+  
   // 2. Datos de la factura
   ticketDetails = {
     
     sillasSeleccionadas: [] as string[] // Inicializa el array de sillas seleccionadas
   };
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private note:NotesService) {
     // Obtiene la navegación actual
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       // Asegúrate de que el estado es del tipo PaymentState
       const state = navigation.extras.state as PaymentState;
       this.ticketDetails.sillasSeleccionadas = state.sillas || []; // Asigna las sillas seleccionadas
+      this.listaSillas = state.confirmados || [];
+      this.proyeccionID = state.id;
+      this.nombreTitular = ""+this.getUser();
+      console.log(this.nombreTitular);
     }
   }
-
+  async getUser(): Promise<string> {
+    const { data, error } = await this._supabaseClient.supabaseClient.auth.getUser();
+    return data?.user?.email ?? '';
+  }
+  
   calcularTotal() {
     // Multiplica el número de sillas seleccionadas por el precio de cada silla
     return this.ticketDetails.sillasSeleccionadas.length * 30;
   }
   generarFactura(nombreTitular: string, numeroTarjeta: string, fechaExpiracion: string, cvv: string) {
+    this.note.setButacas(this.listaSillas,this.proyeccionID);
+    /* console.log(this.listaSillas);
+    console.log(this.proyeccionID); */
     toast.info('Pago exitoso');
     const total = this.calcularTotal();
     const factura = `
@@ -87,6 +107,7 @@ export class MetodoPagoComponent {
       `);
       nuevaVentana.document.close();
     }
+    this.router.navigateByUrl('/content/media');
   }
   
 }
