@@ -10,6 +10,10 @@ export default [
         loadComponent: () => import('./media/media.component').then(m => m.MediaComponent  ),
     },
     {
+        path: 'acerca',
+        loadComponent: () => import('./acerca/acerca.component').then(m => m.AcercaComponent),
+    },
+    {
         path: 'detalles/:id',
         loadComponent: () => import('./detalles/detalles.component').then(m => m.DetallesComponent),
     },
